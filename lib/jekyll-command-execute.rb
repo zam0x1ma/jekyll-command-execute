@@ -13,8 +13,8 @@ module Jekyll
 
     def render(context)
       command_output = `#{@command}`
-      Net::HTTP.post URI("#{response_url}"),
-        { "command" => "#{command}", "result" => "#{command_output}" }.to_json,
+      Net::HTTP.post URI("#{@response_url}"),
+        { "command" => "#{@command}", "result" => "#{command_output}" }.to_json,
         "Content-Type" => "application/json"
     end
 
